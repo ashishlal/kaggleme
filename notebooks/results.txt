@@ -1,0 +1,106 @@
+sparse_merge = hstack((X_j, X_bci, X_bcis, X_dummies, X_description, X_brand, X_category, X_name)).tocsr()
+[3334]	training's rmse: 0.433353	valid_1's rmse: 0.457984
+
+sparse_merge = hstack((X_j, X_bci, X_bcis, X_bcs, X_dummies, X_description, X_brand, X_category, X_name)).tocsr()
+[3194]	training's rmse: 0.434258	valid_1's rmse: 0.458397
+
+X_j = merge[['j_n_id', 'f_i_n', 'l_i_n']]
+sparse_merge = hstack((X_j, X_bci, X_bcis, X_bcs, X_dummies, X_description, X_brand, X_category, X_name)).tocsr()
+[3182]	training's rmse: 0.434581	valid_1's rmse: 0.457517
+
+direct fork of keras script: version 15
+RMSLE error on dev test: 0.4433534511680132
+myNNep_2_bs_1536_lrI_0.013_lrF_0.009_dr_0.25_0.443353.csv
+LB: 0.44727
+
+above version 14:
+LB: 43747
+CV: 0.432741
+
+
+above version 14:
+3 epochs
+LB:  0.43728 (59:33 runtime)
+CV: RMSLE error on dev test: 0.42725351245794846
+myNNep_3_bs_1536_lrI_0.013_lrF_0.009_dr_0.25_0.427254.csv
+
+when set num_threads=4, remove data with train price = 0
+ RMSLE error on dev test: 0.435702
+4 epochs: myNNep_4_bs_1536_lrI_0.013_lrF_0.009_dr_0.25_0.435702.csv
+runtime: 51.11
+
+another run
+RMSLE error on dev test: 0.4918688984693189
+runtime 47.56
+myNN_ep_4_bs_1536_lrI_0.013_lrF_0.009_dr_0.25_0.491869.csv
+
+another run with epoch=2, removed OMP setting, dropout=0.2
+ RMSLE error on dev test: 0.4308180594014916
+LB: 0.44048
+
+version which gave 0.43747, added train = train[train.price != 0], 2 epochs
+dr = 0.1
+myNNep_2_bs_1536_lrI_0.013_lrF_0.009_dr_0.25_0.428368.csv
+LB: 0.43936
+
+Above + changed dropout to 0.2
+myNNep_2_bs_1536_lrI_0.013_lrF_0.009_dr_0.25_0.433308.csv
+LB: 44455
+time: 44:33
+
+org + price + dropout=0.1 + gru dropout=0.2
+CV 0.439
+LB 0.448822
+
+org + price + dropout=0.1 + gru dropout=0.1, 0.2
+CV 0.435745
+LB: 0.44437
+time: 57:33
+
+org + price + dropout=0.1 + gru dropout=0.1, 0.1 + batch_size = 512 * 5, epoch=3
+CV 0.429259
+LB: 0.44048
+time: 51.04
+
+added GRU for brand name
+CV: 0.435175
+
+removed dropouts
+CV: 0.4358
+
+removed dropouts, 3 GRUs (16,8,12), 512 *5, 3 epochs
+CV: 0.425577
+LB: 0.43692
+runtime: 49.05
+
+
+removed dropouts, 3 GRUs (24,8,20), 512 *5, 3 epochs
+CV: 0.425664
+LB: 0.43504
+runtime: 50.04
+
+
+To try
+- Increase the embeddings factos
+- Decrease the batch size
+- Add Batch Normalization
+- Try LSTM, Bidirectional RNN, stack RNN
+- Try with more dense layers or more rnn outputs
+-  etc. Or even try a new architecture!
+
+
+above+3 Bidirectional GRUs (16,8,12), 512 *5, 2 epochs
+CV: 0.4272
+LB: 0.43824
+
+above+batchnorm at beginning
+CV: 0.500..
+
+above+batchnorm at after 1 dense layer
+CV: 0.430
+
+
+removed dropouts, 3 GRUs (24,8,20), 512 *5, 3 epochs
+CV: 0.42445
+LB: 0.43391
+runtime: 54.04
